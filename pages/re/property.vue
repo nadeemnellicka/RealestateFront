@@ -101,7 +101,7 @@
     data: () => ({
       dialog: false,
       headers: [
-        { text: 'Type', value: 'property_type' },
+        { text: 'Type', value: 'types.name' },
         { text: 'Name', value: 'name' },
         { text: 'Building No.', value: 'building_no' },
         { text: 'Phone', value: 'phone' },
@@ -180,7 +180,7 @@
       save () {
         if (this.editedIndex > -1) {
               try {
-               const res =  this.$axios.post('realestate/properties/create',this.editedItem);
+               const res =  this.$axios.put('realestate/properties/update',this.editedItem);
                } catch (e) {
                console.error(e);
                }

@@ -1,7 +1,7 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="desserts"
+    :items="contracts"
     sort-by="calories"
     class="elevation-1"
   >
@@ -93,15 +93,15 @@
     data: () => ({
       dialog: false,
       headers: [
-        { text: 'Property', value: 'property_id' },
-        { text: 'Unit', value: 'unit_id' },
+        { text: 'Property', value: 'property.name' },
+        { text: 'Unit', value: 'unit.name' },
         { text: 'Start', value: 'start_date' },
         { text: 'End', value: 'end_date' },
         { text: 'Rent', value: 'rent' },
         { text: 'Deposit', value: 'deposit' },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
-      desserts: [],
+      contracts: [],
       property_type:[],
       properties:[],
       units:[],
@@ -137,7 +137,7 @@
     async  initialize () {
         try {
             const res = await this.$axios.get('realestate/contracts/list');
-            this.desserts=res.data.data
+            this.contracts=res.data.data
           } catch (e) {
             console.error(e);
           }
@@ -160,14 +160,16 @@
         },
 
       editItem (item) {
-        this.editedIndex = this.desserts.indexOf(item)
+        this.editedIndex = this.contracts.indexOf(item)
         this.editedItem = Object.assign({}, item)
-        this.dialog = true
+        // this.$router.push({name: 're.contractCreate', params: { id: this.editedItem.id}})
+        this.$router.push('/re/contractCreate');
+        // this.dialog = true
       },
 
       deleteItem (item) {
-        const index = this.desserts.indexOf(item)
-        confirm('Are you sure you want to delete this item?') && this.desserts.splice(index, 1)
+        const index = this.contracts.indexOf(item)
+        confirm('Are you sure you want to delete this item?') && this.contracts.splice(index, 1)
       },
 
       close () {
@@ -185,7 +187,7 @@
                } catch (e) {
                console.error(e);
                }
-          Object.assign(this.desserts[this.editedIndex], this.editedItem)
+          Object.assign(this.contracts[this.editedIndex], this.editedItem)
 
         } else {
              try {
@@ -193,7 +195,7 @@
                } catch (e) {
                console.error(e);
                }
-          this.desserts.push(this.editedItem)
+          this.contracts.push(this.editedItem)
         }
         this.close()
       },

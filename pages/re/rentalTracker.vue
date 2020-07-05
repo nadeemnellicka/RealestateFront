@@ -1,13 +1,13 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="desserts"
+    :items="rentalTracker"
     sort-by="calories"
     class="elevation-1"
   >
     <template v-slot:top>
       <v-toolbar flat color="black">
-        <v-toolbar-title>Units</v-toolbar-title>
+        <v-toolbar-title>Rental Tracker</v-toolbar-title>
         <v-divider
           class="mx-4"
           inset
@@ -15,38 +15,30 @@
         ></v-divider>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              color="primary"
-              dark
-              class="mb-2"
-              v-bind="attrs"
-              v-on="on"
-            >New Item</v-btn>
-          </template>
           <v-card>
             <v-card-title>
               <span class="headline">{{ formTitle }}</span>
             </v-card-title>
             <v-card-text>
               <v-container>
+
+                 <v-card-text>
+      <div>{{editedItem.contract.unit.name}}</div>
+      <p class="display-1 text--primary">
+        {{editedItem.contract.tenant.name}}
+      </p>
+      <p>{{editedItem.contract.property.name}}</p>
+      <p>{{editedItem.contract.unit.name}}</p>
+    </v-card-text>
+
+
                 <v-row>
+                  You are collecting the rent of {{editedItem.contract.unit.name}} of {{editedItem.contract.property.name}} for the month of {{editedItem.start_date}} of {{editedItem.amount}}
                   <v-col cols="12" sm="6" md="6">
-                       <v-select v-model="editedItem.property_id" item-text="name" item-value="id" :items="properties" label="Property" ></v-select>
+                       <h1>Rent Amount:{{editedItem.amount}}</h1>  
                   </v-col> 
                   <v-col cols="12" sm="6" md="6">
-                       <v-select v-model="editedItem.unit_type" item-text="name" item-value="id" :items="unit_types" label="Type" ></v-select>
-                  </v-col>
-                  <v-col cols="12" sm="4" md="4">
-                    <v-text-field v-model="editedItem.name" label="Name"></v-text-field>
-                  </v-col>  
-                  <v-col cols="12" sm="5" md="5">
-                       <v-select v-model="editedItem.furnish_status" item-text="name" item-value="id" :items="furnish_status" label="Furnish Status" ></v-select>
-                  </v-col>
-
-
-                  <v-col cols="12" sm="3" md="3">
-                    <v-text-field v-model="editedItem.rent" label="Budgetted Rent"></v-text-field>
+                        <v-text-field label="Balance Amount"  v-model="editedItem.amount" ></v-text-field>
                   </v-col> 
                    
                 </v-row>
@@ -88,18 +80,30 @@
     data: () => ({
       dialog: false,
       headers: [
-        { text: 'Property', value: 'property.name' },
-        { text: 'Type', value: 'type.name' },
-        { text: 'Name', value: 'name' },
-        { text: 'Furnish Status', value: 'furnish.name' },
-        { text: 'Budgetted Rent', value: 'rent' },
+        { text: 'Property', value: 'contract.property.name' },
+        { text: 'Unit', value: 'contract.unit.name' },
+        { text: 'Tenant', value: 'contract.tenant.name' },
+        { text: 'amount', value: 'amount' },
+        { text: 'start_date', value: 'start_date' },
+        { text: 'end_date', value: 'end_date' },
+        { text: 'status', value: 'status' },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
-      desserts: [],
+      rentalTracker: [],
       properties:[],
       editedIndex: -1,
       editedItem: {
-        type: '',
+        contract: {
+          property:{
+            name:"",
+          },
+          unit:{
+            name:"",
+          },
+          tenant:{
+            name:"",
+          },
+        },
         name: '',
       },
       defaultItem: {
@@ -110,7 +114,7 @@
 
     computed: {
       formTitle () {
-        return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+        return this.editedIndex === -1 ? 'New Item' : 'Make Collection'
       },
     },
 
@@ -122,53 +126,27 @@
 
     created () {
       this.initialize()
-      this.getProperties()
-      this.getUnitTypes()
-      this.getFurnishStatus()
     },
 
     methods: {
     async  initialize () {
         try {
-            const res = await this.$axios.get('realestate/units/list');
-            this.desserts=res.data.data
+            const res = await this.$axios.get('realestate/tracker/list');
+            this.rentalTracker=res.data.data
           } catch (e) {
             console.error(e);
           }
       },
-    async getUnitTypes() {
-          try {
-            const res = await this.$axios.get('realestate/masters/list/unit_type');
-            this.unit_types=res.data.data
-          } catch (e) {
-            console.error(e);
-          }
-        },  
-    async getFurnishStatus() {
-          try {
-            const res = await this.$axios.get('realestate/masters/list/furnish_status');
-            this.furnish_status=res.data.data
-          } catch (e) {
-            console.error(e);
-          }
-        }, 
-       async getProperties() {
-          try {
-            const res = await this.$axios.get('realestate/properties/list');
-            this.properties=res.data.data
-          } catch (e) {
-            console.error(e);
-          }
-        }, 
       editItem (item) {
-        this.editedIndex = this.desserts.indexOf(item)
+        this.editedIndex = this.rentalTracker.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialog = true
+        debugger
       },
 
       deleteItem (item) {
-        const index = this.desserts.indexOf(item)
-        confirm('Are you sure you want to delete this item?') && this.desserts.splice(index, 1)
+        const index = this.rentalTracker.indexOf(item)
+        confirm('Are you sure you want to delete this item?') && this.rentalTracker.splice(index, 1)
       },
 
       close () {
@@ -186,7 +164,7 @@
                } catch (e) {
                console.error(e);
                }
-          Object.assign(this.desserts[this.editedIndex], this.editedItem)
+          Object.assign(this.rentalTracker[this.editedIndex], this.editedItem)
 
         } else {
              try {
@@ -194,7 +172,7 @@
                } catch (e) {
                console.error(e);
                }
-          this.desserts.push(this.editedItem)
+          this.rentalTracker.push(this.editedItem)
         }
         this.close()
       },
