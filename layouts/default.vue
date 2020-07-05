@@ -28,35 +28,35 @@
       :clipped-left="clipped"
       fixed
       app
-    >
+        >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn
+ <!--      <v-btn
         icon
         @click.stop="miniVariant = !miniVariant"
       >
         <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
-      </v-btn>
+      </v-btn> -->
       <v-btn
         icon
         @click.stop="clipped = !clipped"
       >
-        <v-icon>mdi-application</v-icon>
+        <!-- <v-icon>mdi-application</v-icon> -->
       </v-btn>
       
-      <v-btn
+     <!--  <v-btn
         icon
         @click.stop="fixed = !fixed"
-      >
-        <v-icon>mdi-minus</v-icon>
+      > -->
+        <!-- <v-icon>mdi-minus</v-icon> -->
       </v-btn>
       <v-toolbar-title v-text="title" />
       <v-spacer />
-      <v-btn
+<!--       <v-btn
         icon
         @click.stop="rightDrawer = !rightDrawer"
       >
         <v-icon>mdi-menu</v-icon>
-      </v-btn>
+      </v-btn> -->
     </v-app-bar>
     <v-content>
       <v-container>
@@ -93,9 +93,9 @@
 export default {
   data () {
     return {
-      clipped: false,
-      drawer: false,
-      fixed: false,
+      clipped: true,
+      drawer: true,
+      fixed: true,
       items: [
         {
           icon: 'mdi-briefcase',
@@ -118,14 +118,19 @@ export default {
           to: '/re/tenant'
         },
          {
-          icon: 'mdi-file-account',
+          icon: 'mdi-file',
           title: 'Contracts',
           to: '/re/contractList'
+        },
+         {
+          icon: 'mdi-file',
+          title: 'Rent Tracker',
+          to: '/re/rentalTracker'
         },
 
       ],
       miniVariant: false,
-      right: true,
+      right: false,
       rightDrawer: false,
       title: 'Arafan Realestate'
     }
