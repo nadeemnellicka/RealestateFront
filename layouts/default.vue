@@ -123,9 +123,14 @@ export default {
           to: '/re/contractList'
         },
          {
-          icon: 'mdi-file',
+          icon: 'mdi-cash-usd',
           title: 'Rent Tracker',
           to: '/re/rentalTracker'
+        },
+        {
+          icon: 'mdi-cash-usd',
+          title: 'Report',
+          to: '/re/propertyReport'
         },
 
       ],

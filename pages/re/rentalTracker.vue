@@ -23,25 +23,43 @@
               <v-container>
 
                  <v-card-text>
-      <div>{{editedItem.contract.unit.name}}</div>
-      <p class="display-1 text--primary">
-        {{editedItem.contract.tenant.name}}
-      </p>
-      <p>{{editedItem.contract.property.name}}</p>
-      <p>{{editedItem.contract.unit.name}}</p>
+                   <v-row>
+                      <v-col cols="12" sm="4" md="4">
+                        <h3>Property</h3>
+                      </v-col>
+                      <v-col cols="12" sm="8" md="8">
+                        <p class="display-0 text--primary">{{editedItem.contract.property.name}}</p>
+                      </v-col>
+
+                      <v-col cols="12" sm="4" md="4">
+                        <h3>Unit</h3>
+                      </v-col>
+                      <v-col cols="12" sm="8" md="8">
+                        <p class="display-0 text--primary">{{editedItem.contract.unit.name}}</p>
+                      </v-col>
+                      <v-col cols="12" sm="4" md="4">
+                        <h3>Tenant</h3>
+                      </v-col>
+                      <v-col cols="12" sm="8" md="8">
+                        <p class="display-1 text--primary">{{editedItem.contract.tenant.name}}</p>
+                      </v-col>
+                      
+                   </v-row>  
     </v-card-text>
 
 
                 <v-row>
-                  You are collecting the rent of {{editedItem.contract.unit.name}} of {{editedItem.contract.property.name}} for the month of {{editedItem.start_date}} of {{editedItem.amount}}
-                  <v-col cols="12" sm="6" md="6">
+                  <v-col cols="12" sm="8" md="8">
                        <h1>Rent Amount:{{editedItem.amount}}</h1>  
                   </v-col> 
-                  <v-col cols="12" sm="6" md="6">
-                        <v-text-field label="Balance Amount"  v-model="editedItem.amount" ></v-text-field>
+                  <v-col cols="12" sm="4" md="4">
+                        <v-text-field label="Balance Amount"  v-model="editedItem.collected_amount" ></v-text-field>
                   </v-col> 
-                   
+                  <v-col cols="12" sm="12" md="12">
+                       <h1>Balance Amount:{{editedItem.amount-editedItem.amount_paid}}</h1>  
+                  </v-col> 
                 </v-row>
+
               </v-container>
             </v-card-text>
 
@@ -60,14 +78,14 @@
         class="mr-2"
         @click="editItem(item)"
       >
-        mdi-pencil
+      mdi-cash-multiple
       </v-icon>
-      <v-icon
+      <!-- <v-icon
         small
         @click="deleteItem(item)"
       >
         mdi-delete
-      </v-icon>
+      </v-icon> -->
     </template>
     <template v-slot:no-data>
       <v-btn color="primary" @click="initialize">Reset</v-btn>
@@ -84,6 +102,7 @@
         { text: 'Unit', value: 'contract.unit.name' },
         { text: 'Tenant', value: 'contract.tenant.name' },
         { text: 'amount', value: 'amount' },
+        { text: 'Collected Amount', value: 'amount_paid' },
         { text: 'start_date', value: 'start_date' },
         { text: 'end_date', value: 'end_date' },
         { text: 'status', value: 'status' },
@@ -107,7 +126,17 @@
         name: '',
       },
       defaultItem: {
-        type: '',
+        contract: {
+          property:{
+            name:"",
+          },
+          unit:{
+            name:"",
+          },
+          tenant:{
+            name:"",
+          },
+        },
         name: '',
       },
     }),
@@ -141,7 +170,6 @@
         this.editedIndex = this.rentalTracker.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialog = true
-        debugger
       },
 
       deleteItem (item) {
@@ -158,22 +186,22 @@
       },
 
       save () {
-        if (this.editedIndex > -1) {
-              try {
-               const res =  this.$axios.put('realestate/units/update',this.editedItem);
-               } catch (e) {
-               console.error(e);
-               }
-          Object.assign(this.rentalTracker[this.editedIndex], this.editedItem)
+        // if (this.editedIndex > -1) {
+        //       try {
+        //        const res =  this.$axios.put('realestate/units/update',this.editedItem);
+        //        } catch (e) {
+        //        console.error(e);
+        //        }
+        //   Object.assign(this.rentalTracker[this.editedIndex], this.editedItem)
 
-        } else {
+        // } else {
              try {
-               const res =  this.$axios.post('realestate/units/create',this.editedItem);
+               const res =  this.$axios.post('realestate/tracker/collection',this.editedItem);
                } catch (e) {
                console.error(e);
                }
-          this.rentalTracker.push(this.editedItem)
-        }
+          this.initialize()
+        // }
         this.close()
       },
     },
