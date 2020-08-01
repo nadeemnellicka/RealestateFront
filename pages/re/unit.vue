@@ -32,7 +32,7 @@
               <v-container>
                 <v-row>
                   <v-col cols="12" sm="6" md="6">
-                       <v-select v-model="editedItem.property_id" item-text="name" item-value="id" :items="properties" label="Property" ></v-select>
+                       <v-select v-model="editedItem.property_id" item-text="building_no" item-value="id" :items="properties" label="Property" ></v-select>
                   </v-col> 
                   <v-col cols="12" sm="6" md="6">
                        <v-select v-model="editedItem.unit_type" item-text="name" item-value="id" :items="unit_types" label="Type" ></v-select>
@@ -88,7 +88,7 @@
     data: () => ({
       dialog: false,
       headers: [
-        { text: 'Property', value: 'property.name' },
+        { text: 'Property', value: 'property.building_no' },
         { text: 'Type', value: 'type.name' },
         { text: 'Name', value: 'name' },
         { text: 'Furnish Status', value: 'furnish.name' },

@@ -34,25 +34,30 @@
                   <v-col cols="12" sm="3" md="3">
                        <v-select v-model="editedItem.property_type" item-text="name" item-value="id" :items="property_type" label="Type" ></v-select>
                   </v-col>
-                  <v-col cols="12" sm="5" md="5">
-                    <v-text-field v-model="editedItem.name" label="Name"></v-text-field>
-                  </v-col>  
-
                   <v-col cols="12" sm="4" md="4">
                     <v-text-field v-model="editedItem.building_no" label="Building No."></v-text-field>
                   </v-col> 
                    <v-col cols="12" sm="12" md="12">
                     <v-textarea auto-grow rows="1"   row-height="15" v-model="editedItem.address" label="Address"></v-textarea>
                   </v-col>  
-                  <v-col cols="12" sm="4" md="4">
+
+                  <!-- <p  cols="12" sm="12" md="12">Owner Details</p> -->
+
+                   <v-col cols="12" sm="6" md="6">
+                    <v-text-field v-model="editedItem.name" label="Name"></v-text-field>
+                  </v-col>  
+                  <v-col cols="12" sm="6" md="6">
                     <v-text-field height=""  v-model="editedItem.phone" label="Phone No."></v-text-field>
                   </v-col> 
-                   <v-col cols="12" sm="4" md="4">
+
+                   <v-col cols="12" sm="6" md="6">
                     <v-text-field v-model="editedItem.national_id" label="Qatar Id"></v-text-field>
                   </v-col> 
-                  <v-col cols="12" sm="4" md="4">
+                  <v-col cols="12" sm="6" md="6">
                     <v-text-field v-model="editedItem.elecrticity_no" label="Kahrama No."></v-text-field>
                   </v-col>
+
+
                     <v-col cols="12" sm="4" md="4">
                     <v-text-field v-model="editedItem.rent" label="Rent"></v-text-field>
                   </v-col>

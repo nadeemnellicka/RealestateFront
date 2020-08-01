@@ -5,19 +5,19 @@
        
         
         <v-col  cols="12"  md="6" >
-          <v-select v-model="editedItem.property_id" item-text="name" @change="getUnits(1)" item-value="id" :items="properties" label="Property" ></v-select>
+          <v-select v-model="editedItem.property_id" item-text="building_no" @change="getUnits(1)" item-value="id" :items="properties" label="Property" ></v-select>
         </v-col>
         <v-col  cols="12"  md="6" >
           <v-select v-model="editedItem.unit_id" item-text="name" item-value="id" :items="units" label="Unit" ></v-select>
         </v-col>
          <v-col  cols="12"  md="4" >
-          <v-select v-model="editedItem.tenant_id" item-text="name" item-value="id" :items="tenants" label="Unit" ></v-select>
+          <v-select v-model="editedItem.tenant_id" item-text="name" item-value="id" :items="tenants" label="Tenant" ></v-select>
         </v-col>
         <v-col  cols="12"  md="4" >
-          <v-text-field prepend-icon="mdi-calendar-range" v-model="editedItem.start_date" label="Start"></v-text-field>
+          <v-text-field prepend-icon="mdi-calendar-range" v-model="editedItem.start_date" label="Start(yyyy/mm/dd)"></v-text-field>
         </v-col>
         <v-col  cols="12"  md="4" >
-          <v-text-field prepend-icon="mdi-calendar-range" v-model="editedItem.end_date" label="End"></v-text-field>
+          <v-text-field prepend-icon="mdi-calendar-range" v-model="editedItem.end_date" label="End(yyyy/mm/dd)"></v-text-field>
         </v-col>
         <v-col  cols="12"  md="6" >
           <v-text-field prepend-icon="mdi-cash-usd" v-model="editedItem.rent" label="Rent"></v-text-field>
