@@ -53,7 +53,7 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-       baseURL: 'http://api.auth.ashdevs.in/',
+	  baseURL: 'http://realapi.brocodes.in',
   },
    auth: {
   strategies: {
